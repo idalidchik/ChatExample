@@ -24,6 +24,20 @@ void ChatServer::incomingConnection(qintptr socketDescriptor)
     m_clients.append(worker);
     emit logMessage(QStringLiteral("New client Connected"));
 }
+
+void ChatServer::sendMessage(const QString &text)
+{
+    if (text.isEmpty())
+        return; // We don't send empty messages
+    // Create the JSON we want to send
+    QJsonObject message;
+    message[QStringLiteral("type")] = QStringLiteral("message");
+    message[QStringLiteral("text")] = text;
+    message[QStringLiteral("sender")] = QStringLiteral("ChatServer");
+    // send the JSON
+    broadcast(message, nullptr);
+}
+
 void ChatServer::sendJson(ServerWorker *destination, const QJsonObject &message)
 {
     Q_ASSERT(destination);

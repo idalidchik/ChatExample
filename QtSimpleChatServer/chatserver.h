@@ -17,6 +17,7 @@ signals:
     void logMessage(const QString &msg);
 public slots:
     void stopServer();
+    void sendMessage(const QString &text);
 private slots:
     void broadcast(const QJsonObject &message, ServerWorker *exclude);
     void jsonReceived(ServerWorker *sender, const QJsonObject &doc);
